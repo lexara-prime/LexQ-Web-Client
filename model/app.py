@@ -142,7 +142,7 @@ frontend_path = Path(__file__).parent / "web-client"
     allow_concurrent_inputs=20,
     timeout=60 * 10,
 )
-@asgi_app(label="demo-9")
+@asgi_app(label="demo-10")
 def app():
     import json
 

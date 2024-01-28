@@ -2,15 +2,12 @@
 
 <head>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-
     <link rel="stylesheet" href="./assets/css/app.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="">
     <title>LexQ | Enterprise AI</title>
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -176,8 +173,8 @@
                     items: [
                         // {
                         //     id: Math.random(),
-                        //     prompt: "What is javascript",
-                        //     completion: "JavaScript (JS) is a lightweight interpreted (or just-in-time compiled) programming language with first-class functions. ",
+                        //     prompt: "",
+                        //     completion: "",
                         //     loading: false,
                         //     markdownCompletion: ""
                         // }
@@ -192,7 +189,7 @@
                             prompt: this.nextPrompt,
                             completion: "",
                             loading: true,
-                            markdownCompletion: "",
+                            markdownCompletion: "", // Results will be parsed by <markedjs>
                         };
                         this.nextPrompt = "";
                         this.items.push(item);
@@ -205,7 +202,7 @@
                         eventSource.onmessage = (event) => {
                             item.completion += JSON.parse(event.data).text;
                             item.markdownCompletion = marked.parse(item.completion, { mangle: false, headerIds: false });
-                            // Hacky way to notify element to update
+                            // Notify element to update?
                             this.items = this.items.map((i) =>
                                 i.id === item.id ? { ...item } : i,
                             );
@@ -221,20 +218,19 @@
                         };
                     },
                     refreshInfo() {
-                        // fetch("/stats")
-                        //     .then((response) => response.json())
-                        //     .then((data) => {
-                        //         this.info = { ...data, loaded: true };
-                        //     })
-                        //     .catch((error) => console.log(error));
-                        console.log("Working");
+                        fetch("/stats")
+                            .then((response) => response.json())
+                            .then((data) => {
+                                this.info = { ...data, loaded: true };
+                            })
+                            .catch((error) => console.log(error));
                     },
                 };
             }
         </script>
 
-
         <!-- To do -> ADD PLACEHOLDER CONTENT -->
+
     </section>
 </body>
 
