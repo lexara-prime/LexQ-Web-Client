@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<head>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.2/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="./assets/css/app.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="">
+    <title>LexQ | Enterprise AI</title>
+</head>
+
+<body>
+
+    <header>
+        <!-- SIDE BAAR TOGGLE -->
+        <a class="side-bar-toggle-wrapper" onclick="fn_OPEN_SIDE_BAR()">
+            <i class="fa-solid fa-list menu-icon"></i>
+        </a>
+    </header>
+
+    <!-- SIDE BAR -->
+    <div class="side-bar collapsed">
+        <!-- SIDE BAR HEADER -->
+        <div class="side-bar-header hidden">
+            <h3 class="side-bar-title">
+                <i class="fa-solid fa-square-plus new-chat-icon"></i>
+                New chat
+            </h3>
+
+            <!-- CLOSE BUTTON -->
+            <a class="close-btn-wrapper" onclick="fn_CLOSE_SIDE_BAR()">
+                <i class="fa-solid fa-circle-xmark close-btn-icon"></i>
+            </a>
+        </div>
+
+        <!-- SIDE BAR CONTENT -->
+        <div class="side-bar-content hidden">
+            <!-- CHATS -->
+            <a class="chat-history">
+                <i class="fa-regular fa-message chat-icon"></i>
+
+                <p class="chat">
+                    What is usls about?
+                </p>
+            </a>
+
+            <a class="chat-history">
+                <i class="fa-regular fa-message chat-icon"></i>
+
+                <p class="chat">
+                    Generate some tech talk...
+                </p>
+            </a>
+        </div>
+
+        <!-- PROFILE INFO. -->
+        <div class="profile-info hidden">
+            <div class="profile-avatar">
+                <img src="./assets/avatars/user.png" alt="profile-avatar">
+
+                <h2 class="profile-name">
+                    Aaron Etler
+                </h2>
+            </div>
+
+            <!-- MENU TOGGLE | Additional info, Settings etc -->
+            <div class="menu-toggle">
+                <a class="menu-toggle-wrapper">
+                    <i class="fa-solid fa-square-poll-horizontal menu-toggle-icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <img src="./assets/logos/png/logo-color-no-bg.png" alt="logo" class="logo">
+    </section>
+
+    <section x-data="state()" class="container">
+        <!-- STATS -->
+        <div class="stats-wrapper">
+            <div x-init="setInterval(() => refreshInfo(), 1000)" class="stat-info">
+                <div x-show="!info.loaded" class="load-indicator">
+                    <div class="spin-animation">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                        </svg>
+                    </div>
+                    <span>loading stats</span>
+                </div>
+
+                <!-- INPUT QUEUE STATS -->
+                <div x-show="info.loaded && info.backlog > 0" class="container-info">
+                    <span x-text="info.backlog"></span>
+                    <span x-text="info.backlog === 1 ? 'input in queue' : 'inputs in queue'"></span>
+                </div>
+
+                <!-- CONTAINER STATS -->
+                <div x-show="info.loaded && (info.backlog === 0)" class="container-info">
+                    <span x-text="info.num_total_runners"></span>
+                    <span x-text="info.num_total_runners === 1 ? 'container online' : 'containers online'"></span>
+                </div>
+
+                <!-- COLD START INFO -->
+                <div class="load-indicator" x-show="info.loaded && info.backlog > 0">
+                    <div class="spin-animation">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                        </svg>
+                    </div>
+                    <span> cold-starting </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROMPT INPUT BOX -->
+        <div class="main-input-wrapper">
+            <!-- CONTAINER FOR INPUT FIELD & SUBMIT BUTTON -->
+            <div class="input-background">
+                <input x-model="nextPrompt" id="user-input" type="text" placeholder="Type something..."
+                    @keydown.window.prevent.ctrl.k="$el.focus()" @keydown.window.prevent.cmd.k="$el.focus()"
+                    autofocus />
+
+                <!-- SUBMIT INPUT BUTTON -->
+                <a @click.prevent="callApi()" class="submit-user-input" title="Submit...">
+                    <i class="fa-solid fa-paper-plane icon"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- GENERATED RESPONSES -->
+
+        <!-- DISPLAY CONTENTS IN REVERSE ORDER -->
+        <template x-for="(item, index) in [...items].reverse()" :key="index" class="output-wrapper">
+            <div class="content" x-show="item.completion.length > 0">
+                <div class="output-format">
+                    <!-- OUTPUT FORMAT -->
+                    <div class="provided-input">
+                        <!-- AVATAR -->
+                        <img src="./assets/avatars/user.png" alt="bot" class="USER-avatar">
+                        <div x-data x-text="item.prompt" :class="{'pulse-animation': item.loading}"></div>
+                    </div>
+
+                    <!-- GENERATED OUTPUT -->
+                    <div class="generated-output">
+                        <!-- AVATAR -->
+                        <img src="./assets/avatars/bot.png" alt="bot" class="BOT-avatar">
+
+                        <!-- RESPONSE -->
+                        <div class="response">
+                            <!-- RESPONSE LOAD STATE -->
+                            <div x-show="item.completion.length === 0" class="pulse-animation">
+                            </div>
+
+                            <!-- CONTENT WRAPPER -->
+                            <div class="content-wrapper" x-show="item.completion.length > 0"
+                                x-html="item.markdownCompletion">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+
+        <!-- To do -> ADD PLACEHOLDER CONTENT -->
+    </section>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+    integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="./assets/js/app.js"></script>
+
+</html>
