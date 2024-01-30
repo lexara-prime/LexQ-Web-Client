@@ -576,10 +576,6 @@ header {
 .content {
     max-width: 700px;
     margin: auto;
-    margin-top: 5rem;
-    padding: 2rem 0;
-    padding-top: 3rem;
-    padding-bottom: 6rem;
 }
 
 /* STYLING FOR AVATARS */
@@ -598,8 +594,9 @@ header {
 
 .output-format {
     border-radius: 3px;
-    border-bottom: 9px solid var(--smoky-black);
-    padding: 1.3rem;
+    border-bottom: .5px solid var(--dark-level-2);
+    margin-bottom: 2rem;
+    padding: .5rem;
 }
 
 .generated-output {
@@ -610,12 +607,8 @@ header {
     -ms-flex-align: start;
     align-items: start;
     gap: 1rem;
-    font-size: .9rem;
     padding-bottom: 3rem;
     margin-left: 1rem;
-    margin-bottom: 1rem;
-    -webkit-animation: slide-in-right 1s;
-    animation: slide-in-right 1s;
 }
 
 .provided-input {
@@ -628,8 +621,6 @@ header {
     gap: .9rem;
     font-size: .9rem;
     margin-bottom: 2rem;
-    -webkit-animation: slide-in-left 1s;
-    animation: slide-in-left 1s;
 }
 
 .provided-input div {
@@ -637,7 +628,6 @@ header {
     background: -webkit-gradient(linear, left top, right top, from(rgba(62, 62, 62, 0.1334908963585434)), color-stop(71%, rgba(112, 112, 112, 0.23153011204481788)), to(rgba(131, 131, 131, 0.21192226890756305)));
     background: -o-linear-gradient(left, rgba(62, 62, 62, 0.1334908963585434) 0%, rgba(112, 112, 112, 0.23153011204481788) 71%, rgba(131, 131, 131, 0.21192226890756305) 100%);
     background: linear-gradient(90deg, rgba(62, 62, 62, 0.1334908963585434) 0%, rgba(112, 112, 112, 0.23153011204481788) 71%, rgba(131, 131, 131, 0.21192226890756305) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3e3e3e", endColorstr="#838383", GradientType=1);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#98536d", endColorstr="#838383", GradientType=1);
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
@@ -666,29 +656,27 @@ header {
     -ms-flex-direction: column;
     flex-direction: column;
     color: var(--gray-level-2);
-    -webkit-box-shadow: var(--level-0);
-    box-shadow: var(--level-0);
     border-radius: 0px 12px 12px 12px;
-    padding: 1.5rem 4rem;
-    font-weight: 700;
-    font-size: 1rem;
+    padding: 1.5rem 2rem;
+    font-size: .9rem;
+    font-weight: 500;
     line-height: 1.5rem;
     -webkit-transition: .2s all ease;
     -o-transition: .2s all ease;
     transition: .2s all ease;
     cursor: pointer;
     background: rgb(62, 62, 62);
-    background: -webkit-gradient(linear, left top, right top, from(rgba(62, 62, 62, 0.11388305322128855)), color-stop(68%, rgba(112, 112, 112, 0.23153011204481788)), to(rgba(69, 69, 69, 0.5116421568627452)));
-    background: -o-linear-gradient(left, rgba(62, 62, 62, 0.11388305322128855) 0%, rgba(112, 112, 112, 0.23153011204481788) 68%, rgba(69, 69, 69, 0.5116421568627452) 100%);
-    background: linear-gradient(90deg, rgba(62, 62, 62, 0.11388305322128855) 0%, rgba(112, 112, 112, 0.23153011204481788) 68%, rgba(69, 69, 69, 0.5116421568627452) 100%);
+    background: -webkit-gradient(linear, left top, right top, from(rgba(62, 62, 62, 0.15)), color-stop(68%, rgba(112, 112, 112, 0.1)), to(rgba(69, 69, 69, 0.1)));
+    background: -o-linear-gradient(left, rgba(62, 62, 62, 0.15) 0%, rgba(112, 112, 112, 0.1) 68%, rgba(69, 69, 69, 0.1) 100%);
+    background: linear-gradient(90deg, rgba(62, 62, 62, 0.15) 0%, rgba(112, 112, 112, 0.1) 68%, rgba(69, 69, 69, 0.1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3e3e3e", endColorstr="#454545", GradientType=1);
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
+    opacity: .5;
 }
 
 .generated-output .content-wrapper:hover {
-    -webkit-box-shadow: var(--level-1);
-    box-shadow: var(--level-1);
+    opacity: 1;
 }
 
 .pulse-animation {
